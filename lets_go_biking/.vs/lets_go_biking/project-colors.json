@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "60619f30-c11c-4e63-8962-06108be33179": {
+      "ProjectGuid": "60619f30-c11c-4e63-8962-06108be33179",
+      "DisplayName": "lets_go_biking",
+      "ColorIndex": 0
+    },
+    "96937a2a-ea78-44f1-9456-48b411872f91": {
+      "ProjectGuid": "96937a2a-ea78-44f1-9456-48b411872f91",
+      "DisplayName": "ProxyService",
+      "ColorIndex": 1
+    },
+    "9798514b-7712-4c9d-b70a-527e86e55a17": {
+      "ProjectGuid": "9798514b-7712-4c9d-b70a-527e86e55a17",
+      "DisplayName": "ProxyCache",
+      "ColorIndex": 2
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Fichiers divers",
+      "ColorIndex": -1
+    },
+    "2289fe4b-1b25-415a-898b-3c25f524b45d": {
+      "ProjectGuid": "2289fe4b-1b25-415a-898b-3c25f524b45d",
+      "DisplayName": "RoutingService",
+      "ColorIndex": 3
+    }
+  },
+  "NextColorIndex": 4
+}
