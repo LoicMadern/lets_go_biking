@@ -8,11 +8,17 @@ var latitude_beginning_station
 var latitude_arrival_station
 var station_to_station_color_path = '#003cfc'
 
-var current_layer
+
 var map
 var coords
 var layers = []
 var current_layers =[]
+var total_duration = 0.0
+
+var walking_duration =0.0
+var layers_walking =[]
+var current_walking_layers =[]
+
 
 
 
@@ -83,12 +89,13 @@ function finishHandler(){
         str = this.responseText;
         str= str.replace('feature', 'Feature');
         str= str.replace('geometry', 'geom');
+        str= str.replace('duration', 'duree');
         console.log(str);
         let json = JSON.parse(str);
         console.log(json.Features[0].geom.coordinates);
         coords = json.Features[0].geom.coordinates;
-
-
+        total_duration += json.Features[0].properties.segments[0].duree;
+        console.log('DISTANCE' + total_duration);
         var layer = new ol.layer.Vector({
             source: new ol.source.Vector({
                 features: [
@@ -136,6 +143,62 @@ function finishHandler(){
 
     }
 }
+
+
+function finishHandlerWalking(){
+    if (this.status !== 200) {
+        console.log("Contracts not retrieved. Check the error in the Network or Console tab.");
+    } else {
+        // The result is contained in "this.responseText". First step: transform it into a js object.
+        str = this.responseText;
+        str= str.replace('feature', 'Feature');
+        str= str.replace('geometry', 'geom');
+        str= str.replace('duration', 'duree');
+        console.log(str);
+        let json = JSON.parse(str);
+        console.log(json.Features[0].geom.coordinates);
+        coords = json.Features[0].geom.coordinates;
+        walking_duration = json.Features[0].properties.segments[0].duree;
+
+
+
+// Create an array containing the GPS positions you want to draw
+//coords = [[7.0985774, 43.6365619], [7.1682519, 43.67163]];
+        var lineString = new ol.geom.LineString(coords);
+
+// Transform to EPSG:3857
+        lineString.transform('EPSG:4326', 'EPSG:3857');
+
+// Create the feature
+        var feature = new ol.Feature({
+            geometry: lineString,
+            name: 'Line'
+        });
+
+// Configure the style of the line
+        var lineStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: station_to_station_color_path,
+                width: 2
+            })
+        });
+
+        var source = new ol.source.Vector({
+            features: [feature]
+        });
+
+        var vector = new ol.layer.Vector({
+            source: source,
+            style: [lineStyle]
+        });
+
+        layers_walking.push(vector);
+
+
+    }
+}
+
+
 
 
 
@@ -188,6 +251,7 @@ async function markBeginning() {
     var caller_path_departure_station = new XMLHttpRequest();
     var caller_path_station_station = new XMLHttpRequest();
     var caller_path_sation_arrival = new XMLHttpRequest();
+    var caller_path_full_walk = new XMLHttpRequest();
 
     caller.open('GET', url_departure, true);
     // The header set below limits the elements we are OK to retrieve from the server.
@@ -214,6 +278,7 @@ async function markBeginning() {
     const url_getPath_departure_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+longitude_beginning_station+'&long2='+latitude_beginning_station;
     const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getCyclingPath?lat1='+longitude_beginning_station+'&long1='+latitude_beginning_station+'&lat2='+longitude_arrival_station+'&long2='+latitude_arrival_station;
     const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+longitude_arrival_station+'&long1='+latitude_arrival_station+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
+    const url_getPath_full_walk = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
 
 
     caller_path_departure_station.open('GET', url_getPath_departure_station, true);
@@ -244,6 +309,14 @@ async function markBeginning() {
 
     await new Promise(r => setTimeout(r, 800));
 
+    caller_path_full_walk.open('GET', url_getPath_full_walk, true);
+    caller_path_full_walk.setRequestHeader ("Accept", "application/json");
+    // onload shall contain the function that will be called when the call is finished.
+    caller_path_full_walk.onload=finishHandlerWalking;
+    caller_path_full_walk.send();
+
+    await new Promise(r => setTimeout(r, 800));
+
     //const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
     //const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
 
@@ -265,28 +338,46 @@ async function markBeginning() {
         })
     });
     layers.push(layer);
+    layers_walking.push(layer);
 
 
 
 
 
 
-    if(layers !== current_layers){
+    if(layers !== current_layers  || layers_walking !== current_walking_layers){
 
 
         for (let i = 0; i < current_layers.length; i++) {
             map.removeLayer(current_layers[i]);
         }
-
-        while(current_layers.length !==0){current_layers.pop();}
-
-
-        for (let i = 0; i < layers.length; i++) {
-            current_layers[i] = layers[i];
-            map.addLayer(current_layers[i]);
+        for (let i = 0; i < current_walking_layers.length; i++) {
+            map.removeLayer(current_walking_layers[i]);
         }
 
+        while(current_layers.length !==0){current_layers.pop();}
+        while(current_walking_layers.length !==0){current_walking_layers.pop();}
+        console.log(total_duration + 'versus ' + walking_duration);
+        if(walking_duration<total_duration){
+            console.log('WALK');
+            for (let i = 0; i < layers_walking.length; i++) {
+                current_walking_layers[i] = layers_walking[i];
+                map.addLayer(current_walking_layers[i]);
+            }
+        } else {
+            for (let i = 0; i < layers.length; i++) {
+                current_layers[i] = layers[i];
+                map.addLayer(current_layers[i]);
+            }
+        }
+
+
+
         while(layers.length !==0){layers.pop();}
+        while(layers_walking.length !==0){layers_walking.pop();}
+
+        total_duration = 0
+        walking_duration = 0
 
 
 
