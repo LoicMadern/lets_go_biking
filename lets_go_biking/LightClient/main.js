@@ -11,6 +11,8 @@ var station_to_station_color_path = '#003cfc'
 var current_layer
 var map
 var coords
+var layers = []
+var current_layers =[]
 
 
 
@@ -96,7 +98,7 @@ function finishHandler(){
                 ]
             })
         });
-        map.addLayer(layer);
+        layers.push(layer);
 
 
 // Create an array containing the GPS positions you want to draw
@@ -129,7 +131,7 @@ function finishHandler(){
             style: [lineStyle]
         });
 
-        map.addLayer(vector);
+        layers.push(vector);
 
 
     }
@@ -205,7 +207,7 @@ async function markBeginning() {
 
 
 
-    await new Promise(r => setTimeout(r, 3000));
+    await new Promise(r => setTimeout(r, 2100));
 
 
 
@@ -220,7 +222,7 @@ async function markBeginning() {
     caller_path_departure_station.onload=finishHandler;
     caller_path_departure_station.send();
 
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 800));
     station_to_station_color_path = '#ec4545';
 
 
@@ -231,7 +233,7 @@ async function markBeginning() {
     caller_path_station_station.onload=finishHandler;
     caller_path_station_station.send();
 
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 800));
     station_to_station_color_path = '#006dff';
 
     caller_path_sation_arrival.open('GET', url_getPath_station_arrival, true);
@@ -240,7 +242,7 @@ async function markBeginning() {
     caller_path_sation_arrival.onload=finishHandler;
     caller_path_sation_arrival.send();
 
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 800));
 
     //const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
     //const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
@@ -262,32 +264,32 @@ async function markBeginning() {
             ]
         })
     });
-
-    if(layer != current_layer){
-
-        map.removeLayer(current_layer);
-        /*
-        var center_latitude;
-        var center_longitude;
+    layers.push(layer);
 
 
-        if (latitude_beginning=>longitude_beginning){
-            center_latitude = Math.abs(latitude_beginning - latitude_arrival)/2+latitude_beginning;
-        }else {
-            center_latitude = Math.abs(latitude_beginning - latitude_arrival)/2+latitude_arrival;
+
+
+
+
+    if(layers !== current_layers){
+
+
+        for (let i = 0; i < current_layers.length; i++) {
+            map.removeLayer(current_layers[i]);
         }
 
-        if (longitude_beginning=>longitude_beginning){
-            center_longitude = Math.abs(longitude_beginning - longitude_arrival)/2+longitude_beginning;
-        }else {
-            center_longitude = Math.abs(longitude_beginning - longitude_arrival) / 2 + longitude_arrival;
+        while(current_layers.length !==0){current_layers.pop();}
+
+
+        for (let i = 0; i < layers.length; i++) {
+            current_layers[i] = layers[i];
+            map.addLayer(current_layers[i]);
         }
 
-        map.getView().setCenter(ol.proj.transform([center_latitude, center_longitude], 'EPSG:4326', 'EPSG:3857'));*/
+        while(layers.length !==0){layers.pop();}
 
 
-        map.addLayer(layer);
-        current_layer = layer;
+
     }
 
 
