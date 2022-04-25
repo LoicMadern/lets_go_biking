@@ -1,18 +1,27 @@
-﻿public class Client
+﻿using System.Diagnostics;
+
+public class Client
 {
 
-
-
-    static readonly HttpClient client = new HttpClient();
 
     public static async Task Main()
     {
 
-        var client = new ServiceReference1.CalculatorSoapClient(ServiceReference1.CalculatorSoapClient.EndpointConfiguration.CalculatorSoap);
-        Console.WriteLine(await client.ChannelFactory.CreateChannel().AddAsync(3, 2));
+        var client = new ServiceReference1.ServiceRoutingSoapClient(ServiceReference1.ServiceRoutingSoapClient.EndpointConfiguration.BasicHttpBinding_IServiceRoutingSoap);
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        int i = 0;
+        int max_requestes = 10;
 
-        var client2 = new ServiceReference2.MathsOperationsClient(ServiceReference2.MathsOperationsClient.EndpointConfiguration.BasicHttpBinding_IMathsOperations);
-        //Console.WriteLine(await client2.AddAsync(2,6));
+        for (; i < max_requestes; i++)
+        {
+            await client.ChannelFactory.CreateChannel().getClosestStationAsync(41, 6);
+            
+        }
+        stopwatch.Stop();
+
+        Console.WriteLine("Average Time for  " + i + " closest station requests : {0} ms", stopwatch.ElapsedMilliseconds/max_requestes);
+
 
 
     }

@@ -2,9 +2,16 @@ var latitude_beginning
 var latitude_arrival
 var longitude_beginning
 var longitude_arrival
+var longitude_beginning_station
+var longitude_arrival_station
+var latitude_beginning_station
+var latitude_arrival_station
+var station_to_station_color_path = '#003cfc'
 
 var current_layer
 var map
+var coords
+
 
 
 
@@ -33,8 +40,99 @@ async function findCoordinatesStreetMap(adress){
     var coordinates = [json.bbox[1] , json.bbox[0]];
     return coordinates;
 
+}
+function handlerDeparture() {
+    if (this.status !== 200) {
+        console.log("Contracts not retrieved. Check the error in the Network or Console tab.");
+    } else {
+        console.log('departure handler');
+        // The result is contained in "this.responseText". First step: transform it into a js object.
+        str = this.responseText;
+        console.log(str);
+        let json = JSON.parse(str);
+        console.log(json);
+        latitude_beginning_station = json.getClosestStationResult[0];
+        longitude_beginning_station = json.getClosestStationResult[1];
+    }
+}
+
+function handlerArrival() {
+
+    if (this.status !== 200) {
+        console.log("Contracts not retrieved. Check the error in the Network or Console tab.");
+    } else {
+        console.log('arrival handler');
+        // The result is contained in "this.responseText". First step: transform it into a js object.
+        str = this.responseText;
+        let json = JSON.parse(str);
+        console.log(json);
+        latitude_arrival_station = json.getClosestStationResult[0];
+        longitude_arrival_station = json.getClosestStationResult[1];
+    }
+}
 
 
+
+function finishHandler(){
+    if (this.status !== 200) {
+        console.log("Contracts not retrieved. Check the error in the Network or Console tab.");
+    } else {
+        // The result is contained in "this.responseText". First step: transform it into a js object.
+        str = this.responseText;
+        str= str.replace('feature', 'Feature');
+        str= str.replace('geometry', 'geom');
+        console.log(str);
+        let json = JSON.parse(str);
+        console.log(json.Features[0].geom.coordinates);
+        coords = json.Features[0].geom.coordinates;
+
+
+        var layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: [
+                    new ol.Feature({
+                        geometry: new ol.geom.Point(ol.proj.fromLonLat(coords[0]))
+                    })
+                ]
+            })
+        });
+        map.addLayer(layer);
+
+
+// Create an array containing the GPS positions you want to draw
+//coords = [[7.0985774, 43.6365619], [7.1682519, 43.67163]];
+        var lineString = new ol.geom.LineString(coords);
+
+// Transform to EPSG:3857
+        lineString.transform('EPSG:4326', 'EPSG:3857');
+
+// Create the feature
+        var feature = new ol.Feature({
+            geometry: lineString,
+            name: 'Line'
+        });
+
+// Configure the style of the line
+        var lineStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: station_to_station_color_path,
+                width: 2
+            })
+        });
+
+        var source = new ol.source.Vector({
+            features: [feature]
+        });
+
+        var vector = new ol.layer.Vector({
+            source: source,
+            style: [lineStyle]
+        });
+
+        map.addLayer(vector);
+
+
+    }
 }
 
 
@@ -42,44 +140,39 @@ async function findCoordinatesStreetMap(adress){
 async function markBeginning() {
 
 
-    var latitude_beginning_station;
     var departureAdress = document.getElementById("debut").value;
     var arrivalAdress = document.getElementById("fin").value;
     var departure_coordinates = await findCoordinatesStreetMap(departureAdress);
     var arrival_coordinates = await findCoordinatesStreetMap(arrivalAdress);
 
 
+
     latitude_beginning = parseFloat(departure_coordinates[0]);
     longitude_beginning = parseFloat(departure_coordinates[1]);
-    console.log(latitude_beginning + " " + longitude_beginning);
-
-
-
-    //
-
-    //const response = await fetch('http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + departure_coordinates[1] + '&long=' + departure_coordinates[0]);
-    //var json = await response.json();
-
-
-
-    /*
-    var longitude_beginning_station = await json["latitude"];
-    latitude_beginning_station = json.latitude;
-
-    console.log(longitude_beginning_station);
-    console.log(latitude_beginning_station);*/
-
 
     latitude_arrival = parseFloat(arrival_coordinates[0]);
     longitude_arrival = parseFloat(arrival_coordinates[1]);
 
+
+    var url_departure = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + departure_coordinates[0] + '&long=' + departure_coordinates[1];
+    var url_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + arrival_coordinates[0] + '&long=' + arrival_coordinates[1];
+    console.log(url_departure);
+    console.log(url_arrival);
+
+
+    /*
+    const response = await fetch('http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + departure_coordinates[1] + '&long=' + departure_coordinates[0]);
+    var json = await response.body;
+
+    console.log(json);
+
+
+
     const url = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
     console.log(url);
     const response_travel = await fetch(url);
-    var json2 = await response_travel;
-
-    console.log(json2);
-
+    var json2 = await JSON.parse(response_travel);
+    console.log(json2);*/
 
 
 
@@ -88,6 +181,69 @@ async function markBeginning() {
 
 
 
+    var caller = new XMLHttpRequest();
+    var caller_position_station = new XMLHttpRequest();
+    var caller_path_departure_station = new XMLHttpRequest();
+    var caller_path_station_station = new XMLHttpRequest();
+    var caller_path_sation_arrival = new XMLHttpRequest();
+
+    caller.open('GET', url_departure, true);
+    // The header set below limits the elements we are OK to retrieve from the server.
+    caller.setRequestHeader ("Accept", "application/json");
+    // onload shall contain the function that will be called when the call is finished.
+    caller.onload=handlerDeparture;
+    caller.send();
+
+
+    //await new Promise(r => setTimeout(r, 2000));
+
+    caller_position_station.open('GET', url_arrival, true);
+    caller_position_station.setRequestHeader ("Accept", "application/json");
+    // onload shall contain the function that will be called when the call is finished.
+    caller_position_station.onload=handlerArrival;
+    caller_position_station.send();
+
+
+
+    await new Promise(r => setTimeout(r, 3000));
+
+
+
+    const url_getPath_departure_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+longitude_beginning_station+'&long2='+latitude_beginning_station;
+    const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getCyclingPath?lat1='+longitude_beginning_station+'&long1='+latitude_beginning_station+'&lat2='+longitude_arrival_station+'&long2='+latitude_arrival_station;
+    const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+longitude_arrival_station+'&long1='+latitude_arrival_station+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
+
+
+    caller_path_departure_station.open('GET', url_getPath_departure_station, true);
+    caller_path_departure_station.setRequestHeader ("Accept", "application/json");
+    // onload shall contain the function that will be called when the call is finished.
+    caller_path_departure_station.onload=finishHandler;
+    caller_path_departure_station.send();
+
+    await new Promise(r => setTimeout(r, 2000));
+    station_to_station_color_path = '#ec4545';
+
+
+
+    caller_path_station_station.open('GET', url_getPath_station_station, true);
+    caller_path_station_station.setRequestHeader ("Accept", "application/json");
+    // onload shall contain the function that will be called when the call is finished.
+    caller_path_station_station.onload=finishHandler;
+    caller_path_station_station.send();
+
+    await new Promise(r => setTimeout(r, 2000));
+    station_to_station_color_path = '#006dff';
+
+    caller_path_sation_arrival.open('GET', url_getPath_station_arrival, true);
+    caller_path_sation_arrival.setRequestHeader ("Accept", "application/json");
+    // onload shall contain the function that will be called when the call is finished.
+    caller_path_sation_arrival.onload=finishHandler;
+    caller_path_sation_arrival.send();
+
+    await new Promise(r => setTimeout(r, 2000));
+
+    //const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
+    //const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
 
 
 
@@ -141,49 +297,5 @@ async function markBeginning() {
 
 
 
-/*
-var layer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-        features: [
-            new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat([7.0985774, 43.6365619]))
-            })
-        ]
-    })
-});
-map.addLayer(layer);
 
-
-// Create an array containing the GPS positions you want to draw
-var coords = [[7.0985774, 43.6365619], [7.1682519, 43.67163]];
-var lineString = new ol.geom.LineString(coords);
-
-// Transform to EPSG:3857
-lineString.transform('EPSG:4326', 'EPSG:3857');
-
-// Create the feature
-var feature = new ol.Feature({
-    geometry: lineString,
-    name: 'Line'
-});
-
-// Configure the style of the line
-var lineStyle = new ol.style.Style({
-    stroke: new ol.style.Stroke({
-        color: '#ffcc33',
-        width: 10
-    })
-});
-
-var source = new ol.source.Vector({
-    features: [feature]
-});
-
-var vector = new ol.layer.Vector({
-    source: source,
-    style: [lineStyle]
-});
-
-map.addLayer(vector);
-*/
 

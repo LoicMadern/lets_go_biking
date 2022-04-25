@@ -25,7 +25,12 @@
       "ProjectGuid": "2289fe4b-1b25-415a-898b-3c25f524b45d",
       "DisplayName": "RoutingService",
       "ColorIndex": 3
+    },
+    "270e3f0b-7035-4414-bf0e-5b756a606a90": {
+      "ProjectGuid": "270e3f0b-7035-4414-bf0e-5b756a606a90",
+      "DisplayName": "HeavyClient",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 4
+  "NextColorIndex": 5
 }
