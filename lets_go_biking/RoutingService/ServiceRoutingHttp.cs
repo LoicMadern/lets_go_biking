@@ -17,38 +17,54 @@ namespace RoutingService
 {
     public class ServiceRoutingHttp : IServiceRoutingHttp
     {
-        List<UtilitiesStation> stations = new Stations().content;
+        List<Station> stations = new Stations().content;
+        ServiceProxyHttp proxy = new ServiceProxyHttp();
+        
 
         public float[] getClosestStation(float latitude, float longitude)
         {
+
+            int nb_bikes_available = 0;
             float currentMinDistance = -1;
-            UtilitiesStation currentMinDistanceStation = null;
-            Debug.WriteLine("Inputs : " + latitude + ' ' + longitude);
+            Station currentMinDistanceStation = null;
+            
 
-
-            foreach (UtilitiesStation element in stations)
+            foreach (Station element in stations)
             {
+
+                var distance = CaclulatorCoordinates.getDistanceFrom2GpsCoordinates(latitude, longitude, (float)element.position.latitude, (float)element.position.longitude);
           
-
-
-                var distance = CaclulatorCoordinates.getDistanceFrom2GpsCoordinates(latitude, longitude, (float) element.position.latitude, (float) element.position.longitude);
-                Debug.WriteLine(element.name + " - " + element.position.latitude + ' ' + element.position.longitude);
-                if (currentMinDistance == -1 || currentMinDistance > distance)
+                if (currentMinDistance == -1 || currentMinDistance > distance )
                 {
                     currentMinDistance = distance;
                     currentMinDistanceStation = element;
                    
                 }
 
-
             }
+            /*
+            string station_name = currentMinDistanceStation.name;
+            string num_station = station_name.Substring(3, 2);
+            string key = "";
+
+            if (num_station[0] == '0')
+            {
+                Debug.WriteLine("other");
+                key = num_station[1].ToString();
+            }
+            else { key = num_station; }
+
+            Station station = JsonConvert.DeserializeObject<Station>(proxy.GetSpecificStation(key));
+            nb_bikes_available = station.totalStands.availabilities.bikes;
+            if (nb_bikes_available == 0)
+            {
+
+            }*/
 
             string output = JsonConvert.SerializeObject(currentMinDistanceStation.position);
             Debug.WriteLine("result closest station " + currentMinDistanceStation.name + " " + output);
             float[] array = new float[] {(float) currentMinDistanceStation.position.latitude, (float) currentMinDistanceStation.position.longitude };
             return array;
-
-           
         }
 
        
@@ -56,8 +72,6 @@ namespace RoutingService
 
         public Stream getWalkingPath(string lat1, string long1, string lat2, string long2)
         {
-            //http://localhost:8736/Design_Time_Addresses/Proxy/Service1/getPath?lat1=8.681495&long1=49.41461&lat2=8.687872&long2=49.420318
-
             HttpClient client = new HttpClient();
             string url = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62483c7e6c9cdcd642968bb2481efbf9316c&start=" + lat1 + "," + long1 + "&end=" + lat2 + "," + long2;
             Debug.WriteLine(url);
@@ -65,20 +79,14 @@ namespace RoutingService
             response.EnsureSuccessStatusCode();
             var content = response.Content.ReadAsStringAsync().Result;
             content = content.Replace("\r\n", "\n");
-            Debug.WriteLine(content);
-
             byte[] byteArray = Encoding.UTF8.GetBytes(content);
-            //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
             MemoryStream stream = new MemoryStream(byteArray);
             return stream;
-           
-           
         }
 
 
         public Stream getCyclingPath(string lat1, string long1, string lat2, string long2)
         {
-
             HttpClient client = new HttpClient();
             string url = "https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf62483c7e6c9cdcd642968bb2481efbf9316c&start=" + lat1 + "," + long1 + "&end=" + lat2 + "," + long2;
             Debug.WriteLine(url);
@@ -87,9 +95,7 @@ namespace RoutingService
             var content = response.Content.ReadAsStringAsync().Result;
             content = content.Replace("\r\n", "\n");
             Debug.WriteLine(content);
-
             byte[] byteArray = Encoding.UTF8.GetBytes(content);
-            //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
             MemoryStream stream = new MemoryStream(byteArray);
             return stream;
         }

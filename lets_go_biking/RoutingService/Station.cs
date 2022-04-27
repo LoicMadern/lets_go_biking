@@ -19,7 +19,7 @@ namespace RoutingService
         public double longitude { get; set; }
     }
 
-    public class UtilitiesStation
+    public class Station
     {
         public int number { get; set; }
         public string contract_name { get; set; }
@@ -29,6 +29,19 @@ namespace RoutingService
         public bool banking { get; set; }
         public bool bonus { get; set; }
         public string status { get; set; }
+
+        public StationInfo totalStands { get; set; }
+    }
+
+    public class StationInfo
+    {
+        public StandAvailability availabilities { get; set; }
+        public int capacity { get; set; }
+    }
+
+    public class StandAvailability
+    {
+        public int bikes { get; set; }
     }
 
 
@@ -58,15 +71,15 @@ namespace RoutingService
     public class Stations 
     {
 
-        public List<UtilitiesStation> content; 
+        public List<Station> content; 
         public Stations()
         {
             ServiceProxyHttp serviceProxyHttp = new ServiceProxyHttp();
             string result = serviceProxyHttp.GetAllStations();
 
-            content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UtilitiesStation>>(result);
+            content = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Station>>(result);
 
-            foreach (UtilitiesStation element in content)
+            foreach (Station element in content)
             {
                 Debug.WriteLine($"{element.name} - {element.position.latitude}- {element.position.longitude}");
             }

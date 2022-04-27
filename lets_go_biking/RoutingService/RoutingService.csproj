@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnableCorsBehavior.cs" />
-    <Compile Include="UtilitiesStation.cs" />
+    <Compile Include="Station.cs" />
     <Compile Include="IServiceRoutingSoap.cs" />
     <Compile Include="IServiceRoutingHttp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

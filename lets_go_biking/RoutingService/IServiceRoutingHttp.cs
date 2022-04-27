@@ -12,16 +12,12 @@ namespace RoutingService
     [ServiceContract]
     public interface IServiceRoutingHttp
     {
-
-   
-
         [OperationContract]
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped,
             UriTemplate = "getClosestStation?lat={x}&long={y}")]
         float[] getClosestStation(float x, float y);
-
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -36,14 +32,5 @@ namespace RoutingService
          BodyStyle = WebMessageBodyStyle.Bare,
          UriTemplate = "getCyclingPath?lat1={lat1}&long1={long1}&lat2={lat2}&long2={long2}")]
         Stream getCyclingPath(string lat1, string long1, string lat2, string long2);
-
-
-
-
-
-
-
-
-
     }
 }

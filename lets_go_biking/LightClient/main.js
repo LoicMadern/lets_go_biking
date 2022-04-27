@@ -14,7 +14,6 @@ var coords
 var layers = []
 var current_layers =[]
 var total_duration = 0.0
-
 var walking_duration =0.0
 var layers_walking =[]
 var current_walking_layers =[]
@@ -40,11 +39,8 @@ map = new ol.Map({
 
 async function findCoordinatesStreetMap(adress){
 
-
     const response = await fetch( 'https://api.openrouteservice.org/geocode/search/structured?api_key=5b3ce3597851110001cf62483c7e6c9cdcd642968bb2481efbf9316c&address='+ adress + '&country=france&locality=Nancy&size=1');
     var json = await response.json();
-
-    //console.log("coordonnées de l'adresse : " + adress + " : " + json.bbox[0] +"," + json.bbox[1]);
     var coordinates = [json.bbox[1] , json.bbox[0]];
     return coordinates;
 
@@ -78,6 +74,8 @@ function handlerArrival() {
         longitude_arrival_station = json.getClosestStationResult[1];
     }
 }
+
+
 
 
 
@@ -271,7 +269,7 @@ async function markBeginning() {
 
 
 
-    await new Promise(r => setTimeout(r, 2100));
+    await new Promise(r => setTimeout(r, 2200));
 
 
 
@@ -315,7 +313,7 @@ async function markBeginning() {
     caller_path_full_walk.onload=finishHandlerWalking;
     caller_path_full_walk.send();
 
-    await new Promise(r => setTimeout(r, 800));
+    await new Promise(r => setTimeout(r, 900));
 
     //const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
     //const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];

@@ -110,7 +110,6 @@
     <Compile Include="ProxyCache.cs" />
     <Compile Include="IProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxy.cs" />
     <Compile Include="IServiceProxyHttp.cs" />
     <Compile Include="ServiceProxyHttp.cs" />
   </ItemGroup>

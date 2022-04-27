@@ -17,16 +17,16 @@ namespace RoutingService
     public class ServiceRoutingSoap : IServiceRoutingSoap
     {
 
-        List<UtilitiesStation> stations = new Stations().content;
+        List<Station> stations = new Stations().content;
 
         public float[] getClosestStation(float latitude, float longitude)
         {
             float currentMinDistance = -1;
-            UtilitiesStation currentMinDistanceStation = null;
+            Station currentMinDistanceStation = null;
             Debug.WriteLine("Inputs : " + latitude + ' ' + longitude);
 
 
-            foreach (UtilitiesStation element in stations)
+            foreach (Station element in stations)
             {
 
 
