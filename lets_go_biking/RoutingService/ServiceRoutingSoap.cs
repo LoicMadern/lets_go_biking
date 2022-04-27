@@ -27,10 +27,7 @@ namespace RoutingService
 
 
             foreach (Station element in stations)
-            {
-
-
-
+            { 
                 var distance = CaclulatorCoordinates.getDistanceFrom2GpsCoordinates(latitude, longitude, (float)element.position.latitude, (float)element.position.longitude);
                 Debug.WriteLine(element.name + " - " + element.position.latitude + ' ' + element.position.longitude);
                 if (currentMinDistance == -1 || currentMinDistance > distance)
@@ -39,8 +36,6 @@ namespace RoutingService
                     currentMinDistanceStation = element;
 
                 }
-
-
             }
 
             string output = JsonConvert.SerializeObject(currentMinDistanceStation.position);
@@ -66,13 +61,10 @@ namespace RoutingService
             var content = response.Content.ReadAsStringAsync().Result;
             content = content.Replace("\r\n", "\n");
             Debug.WriteLine(content);
-
             byte[] byteArray = Encoding.UTF8.GetBytes(content);
             //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
             MemoryStream stream = new MemoryStream(byteArray);
             return stream;
-
-
         }
 
 

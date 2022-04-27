@@ -36,8 +36,11 @@ namespace RoutingService
           
                 if (currentMinDistance == -1 || currentMinDistance > distance )
                 {
+
+
                     currentMinDistance = distance;
                     currentMinDistanceStation = element;
+
                    
                 }
 
@@ -64,6 +67,7 @@ namespace RoutingService
             string output = JsonConvert.SerializeObject(currentMinDistanceStation.position);
             Debug.WriteLine("result closest station " + currentMinDistanceStation.name + " " + output);
             float[] array = new float[] {(float) currentMinDistanceStation.position.latitude, (float) currentMinDistanceStation.position.longitude };
+            Debug.WriteLine("closest station : " + array);
             return array;
         }
 
