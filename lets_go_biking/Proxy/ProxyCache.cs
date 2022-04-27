@@ -15,7 +15,6 @@ namespace Proxy
 
         ObjectCache cache = MemoryCache.Default;
         DateTimeOffset dt_default;
-        HttpClient client = new HttpClient();
      
 
         public ProxyCache(){
@@ -38,11 +37,11 @@ namespace Proxy
 
         public T Get(string CacheItemName, double dt_seconds)
         {
-            if (CacheItemName == null || cache.Any(m => m.Key == CacheItemName))
+            if (cache.Get(CacheItemName) == null)
             {
 
                 T obj = (T)Activator.CreateInstance(typeof(T), new object[] { CacheItemName });
-                cache.Add(CacheItemName, obj, dt_default);
+                cache.Add(CacheItemName, obj, DateTimeOffset.Now.AddSeconds(dt_seconds));
                 return obj;
             }
 
@@ -51,10 +50,10 @@ namespace Proxy
 
         public T Get(string CacheItemName, DateTimeOffset dt)
         {
-            if (CacheItemName == null || cache.Any(m => m.Key == CacheItemName))
+            if (cache.Get(CacheItemName) == null)
             {
                 T obj = (T)Activator.CreateInstance(typeof(T), new object[] { CacheItemName });
-                cache.Add(CacheItemName, obj, dt_default);
+                cache.Add(CacheItemName, obj, dt);
                 return obj;
             }
 

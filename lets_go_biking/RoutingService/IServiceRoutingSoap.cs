@@ -13,7 +13,7 @@ namespace RoutingService
     public interface IServiceRoutingSoap
     {
         [OperationContract]
-        float[] getClosestStation(float x, float y);
+        float[] getClosestStation(float x, float y, bool isArrival);
 
         [OperationContract]
         Stream getWalkingPath(string lat1, string long1, string lat2, string long2);

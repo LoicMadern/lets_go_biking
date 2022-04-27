@@ -59,10 +59,8 @@ namespace RoutingService
                         {
                             currentMinDistance = distance;
                             currentMinDistanceStation = element;
-
                         }
-        
-                        
+                                
                     }else
                     {
                         if (nb_bikes_available > 0)
@@ -73,29 +71,11 @@ namespace RoutingService
                         }
 
                     }
-                   
 
                 }
 
             }
-            /*
-            string station_name = currentMinDistanceStation.name;
-            string num_station = station_name.Substring(3, 2);
-            string key = "";
-
-            if (num_station[0] == '0')
-            {
-                Debug.WriteLine("other");
-                key = num_station[1].ToString();
-            }
-            else { key = num_station; }
-
-            Station station = JsonConvert.DeserializeObject<Station>(proxy.GetSpecificStation(key));
-            nb_bikes_available = station.totalStands.availabilities.bikes;
-            if (nb_bikes_available == 0)
-            {
-
-            }*/
+        
 
             string output = JsonConvert.SerializeObject(currentMinDistanceStation.position);
             Debug.WriteLine("result closest station " + currentMinDistanceStation.name + " " + output);

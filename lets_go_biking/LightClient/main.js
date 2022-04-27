@@ -39,6 +39,7 @@ map = new ol.Map({
 
 });
 
+
 async function findCoordinatesStreetMap(adress){
     const response = await fetch( 'https://api.openrouteservice.org/geocode/search/structured?api_key=5b3ce3597851110001cf62483c7e6c9cdcd642968bb2481efbf9316c&address='+ adress + '&country=france&locality=Nancy&size=1');
     var json = await response.json();
@@ -51,7 +52,6 @@ function handlerClosetStation(){
         console.log("Contracts not retrieved. Check the error in the Network or Console tab.");
     } else {
         console.log('arrival handler');
-        // The result is contained in "this.responseText". First step: transform it into a js object.
         str = this.responseText;
         let json = JSON.parse(str);
         console.log(json);
@@ -68,9 +68,7 @@ function handlerClosetStation(){
 function requestAPI(handler, url){
     var caller = new XMLHttpRequest();
     caller.open('GET', url, false);
-    // The header set below limits the elements we are OK to retrieve from the server.
     caller.setRequestHeader ("Accept", "application/json");
-    // onload shall contain the function that will be called when the call is finished.
     caller.onload=handler;
     caller.send();
 }
@@ -80,8 +78,8 @@ function pathHandler(){
     if (this.status !== 200) {
         console.log("Contracts not retrieved. Check the error in the Network or Console tab.");
     } else {
-        // The result is contained in "this.responseText". First step: transform it into a js object.
         str = this.responseText;
+        //handlejson
         str= str.replace('feature', 'Feature');
         str= str.replace('geometry', 'geom');
         str= str.replace('duration', 'duree');
@@ -109,7 +107,6 @@ function pathHandler(){
         });
 
 // Create an array containing the GPS positions you want to draw
-//coords = [[7.0985774, 43.6365619], [7.1682519, 43.67163]];
         var lineString = new ol.geom.LineString(coords);
 
 // Transform to EPSG:3857
@@ -172,18 +169,18 @@ async function markBeginning() {
 
 
 
-    var url_departure = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + departure_coordinates[0] + '&long=' + departure_coordinates[1]+ '&arrival=false';
-    var url_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + arrival_coordinates[0] + '&long=' + arrival_coordinates[1]+ '&arrival=true';
+    var url_departure = 'http://localhost:8736/Design_Time_Addresses/RoutingService/ServiceHttp/getClosestStation?lat=' + departure_coordinates[0] + '&long=' + departure_coordinates[1]+ '&arrival=false';
+    var url_arrival = 'http://localhost:8736/Design_Time_Addresses/RoutingService/ServiceHttp/getClosestStation?lat=' + arrival_coordinates[0] + '&long=' + arrival_coordinates[1]+ '&arrival=true';
 
     requestAPI(handlerClosetStation, url_departure);
     isBeginning = false
     requestAPI(handlerClosetStation, url_arrival);
     wait(1000);
 
-    const url_getPath_departure_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+longitude_beginning_station+'&long2='+latitude_beginning_station;
-    const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getCyclingPath?lat1='+longitude_beginning_station+'&long1='+latitude_beginning_station+'&lat2='+longitude_arrival_station+'&long2='+latitude_arrival_station;
-    const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+longitude_arrival_station+'&long1='+latitude_arrival_station+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
-    const url_getPath_full_walk = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getWalkingPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
+    const url_getPath_departure_station = 'http://localhost:8736/Design_Time_Addresses/RoutingService/ServiceHttp/getWalkingPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+longitude_beginning_station+'&long2='+latitude_beginning_station;
+    const url_getPath_station_station = 'http://localhost:8736/Design_Time_Addresses/RoutingService/ServiceHttp/getCyclingPath?lat1='+longitude_beginning_station+'&long1='+latitude_beginning_station+'&lat2='+longitude_arrival_station+'&long2='+latitude_arrival_station;
+    const url_getPath_station_arrival = 'http://localhost:8736/Design_Time_Addresses/RoutingService/ServiceHttp/getWalkingPath?lat1='+longitude_arrival_station+'&long1='+latitude_arrival_station+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
+    const url_getPath_full_walk = 'http://localhost:8736/Design_Time_Addresses/RoutingService/ServiceHttp/getWalkingPath?lat1='+departure_coordinates[1]+'&long1='+departure_coordinates[0]+'&lat2='+arrival_coordinates[1]+'&long2='+arrival_coordinates[0];
 
 
 

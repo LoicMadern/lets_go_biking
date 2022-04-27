@@ -17,7 +17,7 @@ namespace ServiceReference1
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceRoutingSoap/getClosestStation", ReplyAction="http://tempuri.org/IServiceRoutingSoap/getClosestStationResponse")]
-        System.Threading.Tasks.Task<float[]> getClosestStationAsync(float x, float y);
+        System.Threading.Tasks.Task<float[]> getClosestStationAsync(float x, float y, bool isArrival);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceRoutingSoap/getWalkingPath", ReplyAction="http://tempuri.org/IServiceRoutingSoap/getWalkingPathResponse")]
         System.Threading.Tasks.Task<System.IO.Stream> getWalkingPathAsync(string lat1, string long1, string lat2, string long2);
@@ -76,9 +76,9 @@ namespace ServiceReference1
         {
         }
         
-        public System.Threading.Tasks.Task<float[]> getClosestStationAsync(float x, float y)
+        public System.Threading.Tasks.Task<float[]> getClosestStationAsync(float x, float y, bool isArrival)
         {
-            return base.Channel.getClosestStationAsync(x, y);
+            return base.Channel.getClosestStationAsync(x, y, isArrival);
         }
         
         public System.Threading.Tasks.Task<System.IO.Stream> getWalkingPathAsync(string lat1, string long1, string lat2, string long2)
