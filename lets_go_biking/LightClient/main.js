@@ -172,8 +172,8 @@ async function markBeginning() {
 
 
 
-    var url_departure = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + departure_coordinates[0] + '&long=' + departure_coordinates[1];
-    var url_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + arrival_coordinates[0] + '&long=' + arrival_coordinates[1];
+    var url_departure = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + departure_coordinates[0] + '&long=' + departure_coordinates[1]+ '&arrival=false';
+    var url_arrival = 'http://localhost:8736/Design_Time_Addresses/Proxy/ServiceHttp/getClosestStation?lat=' + arrival_coordinates[0] + '&long=' + arrival_coordinates[1]+ '&arrival=true';
 
     requestAPI(handlerClosetStation, url_departure);
     isBeginning = false
@@ -208,7 +208,6 @@ async function markBeginning() {
 
     }
 
-
     function markPathOnMap(){
 
 
@@ -229,7 +228,7 @@ async function markBeginning() {
 
         layers.push(layer);
         layers_walking.push(layer);
-        
+
         if(layers !== current_layers  || layers_walking !== current_walking_layers){
             for (let i = 0; i < current_layers.length; i++) {
                 map.removeLayer(current_layers[i]);

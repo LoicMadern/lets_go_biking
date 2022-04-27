@@ -16,8 +16,8 @@ namespace RoutingService
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Wrapped,
-            UriTemplate = "getClosestStation?lat={x}&long={y}")]
-        float[] getClosestStation(float x, float y);
+            UriTemplate = "getClosestStation?lat={x}&long={y}&arrival={isArrival}")]
+        float[] getClosestStation(float x, float y, bool isArrival);
 
         [OperationContract]
         [WebInvoke(Method = "GET",

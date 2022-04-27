@@ -6,7 +6,7 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2289FE4B-1B25-415A-898B-3C25F524B45D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RoutingService</RootNamespace>
     <AssemblyName>RoutingService</AssemblyName>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>RoutingService.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -67,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnableCorsBehavior.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Station.cs" />
     <Compile Include="IServiceRoutingSoap.cs" />
     <Compile Include="IServiceRoutingHttp.cs" />

@@ -21,10 +21,11 @@ namespace RoutingService
         ServiceProxyHttp proxy = new ServiceProxyHttp();
         
 
-        public float[] getClosestStation(float latitude, float longitude)
+        public float[] getClosestStation(float latitude, float longitude, bool isArrival)
         {
 
             int nb_bikes_available = 0;
+            int nb_bikes_stands = 0;
             float currentMinDistance = -1;
             Station currentMinDistanceStation = null;
             
@@ -36,12 +37,44 @@ namespace RoutingService
           
                 if (currentMinDistance == -1 || currentMinDistance > distance )
                 {
+                    
+                    string station_name = element.name;
+                    string num_station = station_name.Substring(3, 2);
+                    string key = "";
 
+                    if (num_station[0] == '0')
+                    {
+                        Debug.WriteLine("other");
+                        key = num_station[1].ToString();
+                    }
+                    else { key = num_station; }
 
-                    currentMinDistance = distance;
-                    currentMinDistanceStation = element;
+                    Station station = JsonConvert.DeserializeObject<Station>(proxy.GetSpecificStation(key));
+                    nb_bikes_available = station.totalStands.availabilities.bikes;
+                    nb_bikes_stands = station.totalStands.availabilities.stands;
 
+                    if (!isArrival )
+                    {
+                        if(nb_bikes_available > 0)
+                        {
+                            currentMinDistance = distance;
+                            currentMinDistanceStation = element;
+
+                        }
+        
+                        
+                    }else
+                    {
+                        if (nb_bikes_available > 0)
+                        {
+                            currentMinDistance = distance;
+                            currentMinDistanceStation = element;
+
+                        }
+
+                    }
                    
+
                 }
 
             }

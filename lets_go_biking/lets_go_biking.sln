@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyService", "Proxy\Proxy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoutingService", "RoutingService\RoutingService.csproj", "{2289FE4B-1B25-415A-898B-3C25F524B45D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeavyClient", "HeavyClient\HeavyClient.csproj", "{270E3F0B-7035-4414-BF0E-5B756A606A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeavyClient", "HeavyClient\HeavyClient.csproj", "{270E3F0B-7035-4414-BF0E-5B756A606A90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

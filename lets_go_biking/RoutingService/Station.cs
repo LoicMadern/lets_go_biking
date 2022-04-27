@@ -42,6 +42,7 @@ namespace RoutingService
     public class StandAvailability
     {
         public int bikes { get; set; }
+        public int stands { get; set; }
     }
 
 

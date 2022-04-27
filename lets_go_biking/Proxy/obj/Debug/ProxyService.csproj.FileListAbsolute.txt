@@ -1,5 +1,3 @@
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\Debug\Proxy.dll.config
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\Debug\Proxy.dll
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\Debug\Proxy.pdb
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\Debug\Microsoft.Extensions.Caching.Abstractions.dll
@@ -36,5 +34,9 @@ C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\ProxyService.csproj.AssemblyReference.cache
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\ProxyService.csproj.CoreCompileInputs.cache
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\ProxyService.csproj.CopyComplete
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\Proxy.dll
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\Proxy.pdb
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\Debug\Proxy.exe.config
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\bin\Debug\Proxy.exe
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\ProxyService.csproj.SuggestedBindingRedirects.cache
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\Proxy.exe.config
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\Proxy\obj\Debug\Proxy.exe

@@ -1,13 +1,8 @@
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\RoutingService.dll.config
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\RoutingService.dll
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\RoutingService.pdb
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\Proxy.dll
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\Proxy.pdb
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\Proxy.dll.config
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\obj\Debug\RoutingService.csproj.AssemblyReference.cache
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\obj\Debug\RoutingService.csproj.CoreCompileInputs.cache
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\obj\Debug\RoutingService.csproj.CopyComplete
-C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\obj\Debug\RoutingService.dll
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\obj\Debug\RoutingService.pdb
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\Newtonsoft.Json.xml
@@ -21,3 +16,9 @@ C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingSer
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\System.Memory.xml
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\RoutingService.exe.config
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\RoutingService.exe
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\Proxy.exe
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\bin\Debug\Proxy.exe.config
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\obj\Debug\RoutingService.csproj.SuggestedBindingRedirects.cache
+C:\Users\Loic\Documents\Polytech\S8\soc\lets_go_biking\lets_go_biking\RoutingService\obj\Debug\RoutingService.exe

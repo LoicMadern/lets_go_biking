@@ -2,8 +2,6 @@
 
 public class Client
 {
-
-
     public static async Task Main()
     { 
         var client = new ServiceReference1.ServiceRoutingSoapClient(ServiceReference1.ServiceRoutingSoapClient.EndpointConfiguration.BasicHttpBinding_IServiceRoutingSoap);

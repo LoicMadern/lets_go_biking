@@ -30,7 +30,17 @@
       "ProjectGuid": "270e3f0b-7035-4414-bf0e-5b756a606a90",
       "DisplayName": "HeavyClient",
       "ColorIndex": 4
+    },
+    "dfdffe0a-cd62-43d7-a574-9247d42a6339": {
+      "ProjectGuid": "dfdffe0a-cd62-43d7-a574-9247d42a6339",
+      "DisplayName": "HostRoutingService",
+      "ColorIndex": 5
+    },
+    "06334851-3e6b-447c-ae50-9935db42826d": {
+      "ProjectGuid": "06334851-3e6b-447c-ae50-9935db42826d",
+      "DisplayName": "WcfService1",
+      "ColorIndex": 6
     }
   },
-  "NextColorIndex": 5
+  "NextColorIndex": 7
 }
